@@ -1,14 +1,18 @@
 package com.epidemicsound.test;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @SpringBootApplication
 public class Application {
@@ -28,14 +32,23 @@ public class Application {
     @Bean
     public CommandLineRunner run(RestTemplate restTemplate) {
         return args -> {
-            Map<String, String> parameters = new HashMap<>();
-            parameters.put("client_id", CLIENT_ID);
-            parameters.put("client_secret", CLIENT_SECRET);
+            HttpHeaders headers = createHeaders();
 
-            String body = "grant_type=client_credentials";
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+            map.add("grant_type", "client_credentials");
 
-            AccessToken token = restTemplate.postForObject(API_URL + "/token", body, AccessToken.class, parameters);
-            System.out.println(token);
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+
+            ResponseEntity<AccessToken> res = restTemplate.postForEntity(API_URL + "/token", request, AccessToken.class);
+            System.out.println(res.getBody());
         };
+    }
+
+    HttpHeaders createHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        byte[] encodedAuth = Base64.encodeBase64((CLIENT_ID + ":" + CLIENT_SECRET).getBytes());
+        headers.add("Authorization", "Basic " + new String(encodedAuth));
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        return headers;
     }
 }
