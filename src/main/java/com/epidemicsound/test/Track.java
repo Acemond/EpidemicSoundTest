@@ -1,21 +1,22 @@
 package com.epidemicsound.test;
 
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Track {
     private final String id;
     private final String name;
-    private final LocalDate releaseDate;
+    private final Album album;
     private final String uri;
-    private final int duration;
+    @JsonProperty("duration_ms")
+    private final int durationMs;
     private final int popularity;
 
-    public Track(String id, String name, LocalDate releaseDate, String uri, int duration, int popularity) {
+    public Track(String id, String name, Album album, String uri, int durationMs, int popularity) {
         this.id = id;
         this.name = name;
-        this.releaseDate = releaseDate;
+        this.album = album;
         this.uri = uri;
-        this.duration = duration;
+        this.durationMs = durationMs;
         this.popularity = popularity;
     }
 
@@ -27,19 +28,31 @@ public class Track {
         return name;
     }
 
-    public LocalDate getReleaseDate() {
-        return releaseDate;
-    }
-
     public String getUri() {
         return uri;
     }
 
-    public int getDuration() {
-        return duration;
+    public int getDurationMs() {
+        return durationMs;
     }
 
     public int getPopularity() {
         return popularity;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    @Override
+    public String toString() {
+        return "Track{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", album=" + album +
+                ", uri='" + uri + '\'' +
+                ", durationMs=" + durationMs +
+                ", popularity=" + popularity +
+                '}';
     }
 }

@@ -30,8 +30,10 @@ public class AccessToken {
 
     @Override
     public String toString() {
-        return AccessToken.class.getSimpleName() + "{accessToken=" + accessToken
-                + ",tokenType=" + tokenType
-                + ",expiresIn=" + expiresIn + "}";
+        return "AccessToken{" +
+                "accessToken='" + accessToken + '\'' +
+                ", tokenType='" + tokenType + '\'' +
+                ", expiresIn=" + expiresIn +
+                '}';
     }
 }
