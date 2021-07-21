@@ -1,4 +1,4 @@
-package com.epidemicsound.test;
+package com.epidemicsound.test.tracker;
 
 import com.epidemicsound.test.spotify.tracks.Track;
 

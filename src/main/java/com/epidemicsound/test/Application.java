@@ -1,5 +1,6 @@
 package com.epidemicsound.test;
 
+import com.epidemicsound.test.tracker.TracksTracker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
