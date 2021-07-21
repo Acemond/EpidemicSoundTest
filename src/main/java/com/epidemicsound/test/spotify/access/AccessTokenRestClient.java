@@ -18,6 +18,7 @@ public class AccessTokenRestClient {
     private final String API_URL = config.getString("spotify.rest.accounts.url");
     private final String CLIENT_ID = config.getString("spotify.rest.accounts.id");
     private final String CLIENT_SECRET = config.getString("spotify.rest.accounts.secret");
+
     private final RestTemplate restTemplate;
 
     @Autowired
