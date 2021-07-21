@@ -4,43 +4,47 @@ import com.epidemicsound.test.spotify.tracks.Track;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.time.LocalDate;
 
 @Entity
 public class InternalTrack {
     @Id
     private final String id;
     private final String name;
-    private final String releaseDate;
+    private final LocalDate releaseDate;
     private final String uri;
     private final int durationMs;
-    private final int popularity;
 
     private InternalTrack() {
-        id = "";
-        name = "";
-        releaseDate = "";
-        uri = "";
+        id = null;
+        name = null;
+        releaseDate = null;
+        uri = null;
         durationMs = 0;
-        popularity = 0;
     }
 
     public InternalTrack(Track track) {
         this(track.getId(),
                 track.getName(),
-                track.getAlbum().getReleaseDate(),
+                LocalDate.parse(track.getAlbum().getReleaseDate()),
                 track.getUri(),
-                track.getDurationMs(),
-                track.getPopularity()
-        );
+                track.getDurationMs());
     }
 
-    public InternalTrack(String id, String name, String releaseDate, String uri, int durationMs, int popularity) {
+    public InternalTrack(String id, String name, LocalDate releaseDate, String uri, int durationMs) {
         this.id = id;
         this.name = name;
         this.releaseDate = releaseDate;
         this.uri = uri;
         this.durationMs = durationMs;
-        this.popularity = popularity;
+    }
+
+    public static InternalTrack fromSpotifyTrack(Track track) {
+        return new InternalTrack(track.getId(),
+                track.getName(),
+                LocalDate.parse(track.getAlbum().getReleaseDate()),
+                track.getUri(),
+                track.getDurationMs());
     }
 
     public String getId() {
@@ -51,7 +55,7 @@ public class InternalTrack {
         return name;
     }
 
-    public String getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
@@ -61,9 +65,5 @@ public class InternalTrack {
 
     public int getDurationMs() {
         return durationMs;
-    }
-
-    public int getPopularity() {
-        return popularity;
     }
 }

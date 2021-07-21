@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 
@@ -22,18 +23,21 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class TracksTracker {
     private final TracksRestClient tracksRestClient;
     private final TracksRepository tracksRepository;
+    private final PopularityRepository popularityRepository;
 
     @Autowired
-    public TracksTracker(TracksRestClient tracksRestClient, TracksRepository tracksRepository) {
+    public TracksTracker(TracksRestClient tracksRestClient, TracksRepository tracksRepository, PopularityRepository popularityRepository) {
         this.tracksRestClient = tracksRestClient;
         this.tracksRepository = tracksRepository;
+        this.popularityRepository = popularityRepository;
     }
 
+    @Scheduled(cron = "0 0 4 * * *")
     public void run() {
         List<Track> tracks = tracksRestClient.getTracks(getTrackIds());
 
-        tracksRepository.saveAll(tracks.stream().map(InternalTrack::new).collect(Collectors.toList()));
-        System.exit(0);
+        tracksRepository.saveAll(tracks.stream().map(InternalTrack::fromSpotifyTrack).collect(Collectors.toList()));
+        popularityRepository.saveAll(tracks.stream().map(Popularity::fromSpotifyTrack).collect(Collectors.toList()));
     }
 
     String[] getTrackIds() {
