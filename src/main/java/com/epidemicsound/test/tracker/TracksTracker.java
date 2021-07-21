@@ -14,11 +14,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Component
 public class TracksTracker {
@@ -46,7 +45,7 @@ public class TracksTracker {
         ResourceLoader resourceLoader = new DefaultResourceLoader();
         Resource resource = resourceLoader.getResource("classpath:track_ids.txt");
 
-        try (Reader reader = new InputStreamReader(resource.getInputStream(), UTF_8)) {
+        try (Reader reader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)) {
             return FileCopyUtils.copyToString(reader).split("\\r?\\n");
         } catch (IOException e) {
             throw new UncheckedIOException("Failed to parse tracks id file.", e);
