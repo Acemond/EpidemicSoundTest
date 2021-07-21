@@ -1,6 +1,10 @@
 package com.epidemicsound.test.spotify.tracks;
 
+import com.epidemicsound.test.tracker.Popularity;
+import com.epidemicsound.test.tracker.Track;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.time.LocalDate;
 
 public class SpotifyTrack {
     private final String id;
@@ -42,6 +46,14 @@ public class SpotifyTrack {
 
     public SpotifyAlbum getAlbum() {
         return album;
+    }
+
+    public Track toTrack() {
+        return new Track(id, name, LocalDate.parse(album.getReleaseDate()), uri, durationMs);
+    }
+
+    public Popularity toPopularity(LocalDate atDate) {
+        return new Popularity(id, popularity, atDate);
     }
 
     @Override

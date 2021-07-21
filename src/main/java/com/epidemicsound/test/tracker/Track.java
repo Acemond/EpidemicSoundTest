@@ -1,7 +1,5 @@
 package com.epidemicsound.test.tracker;
 
-import com.epidemicsound.test.spotify.tracks.SpotifyTrack;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDate;
@@ -13,22 +11,14 @@ public class Track {
     private final String name;
     private final LocalDate releaseDate;
     private final String uri;
-    private final int durationMs;
+    private final Integer durationMs;
 
     private Track() {
         id = null;
         name = null;
         releaseDate = null;
         uri = null;
-        durationMs = 0;
-    }
-
-    public Track(SpotifyTrack spotifyTrack) {
-        this(spotifyTrack.getId(),
-                spotifyTrack.getName(),
-                LocalDate.parse(spotifyTrack.getAlbum().getReleaseDate()),
-                spotifyTrack.getUri(),
-                spotifyTrack.getDurationMs());
+        durationMs = null;
     }
 
     public Track(String id, String name, LocalDate releaseDate, String uri, int durationMs) {
@@ -37,14 +27,6 @@ public class Track {
         this.releaseDate = releaseDate;
         this.uri = uri;
         this.durationMs = durationMs;
-    }
-
-    public static Track fromSpotifyTrack(SpotifyTrack spotifyTrack) {
-        return new Track(spotifyTrack.getId(),
-                spotifyTrack.getName(),
-                LocalDate.parse(spotifyTrack.getAlbum().getReleaseDate()),
-                spotifyTrack.getUri(),
-                spotifyTrack.getDurationMs());
     }
 
     public String getId() {
@@ -63,7 +45,7 @@ public class Track {
         return uri;
     }
 
-    public int getDurationMs() {
+    public Integer getDurationMs() {
         return durationMs;
     }
 

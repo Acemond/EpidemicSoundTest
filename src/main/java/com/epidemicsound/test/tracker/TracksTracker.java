@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UncheckedIOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,10 +35,11 @@ public class TracksTracker {
 
     @Scheduled(cron = "0 0 4 * * *")
     public void run() {
+        LocalDate now = LocalDate.now();
         List<SpotifyTrack> spotifyTracks = tracksRestClient.getTracks(getTrackIds());
 
-        tracksRepository.saveAll(spotifyTracks.stream().map(Track::fromSpotifyTrack).collect(Collectors.toList()));
-        popularityRepository.saveAll(spotifyTracks.stream().map(Popularity::fromSpotifyTrack).collect(Collectors.toList()));
+        tracksRepository.saveAll(spotifyTracks.stream().map(SpotifyTrack::toTrack).collect(Collectors.toList()));
+        popularityRepository.saveAll(spotifyTracks.stream().map(t -> t.toPopularity(now)).collect(Collectors.toList()));
     }
 
     String[] getTrackIds() {
