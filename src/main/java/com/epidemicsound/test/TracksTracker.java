@@ -40,7 +40,7 @@ public class TracksTracker {
         try (Reader reader = new InputStreamReader(resource.getInputStream(), UTF_8)) {
             return FileCopyUtils.copyToString(reader).split("\\r?\\n");
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            throw new UncheckedIOException("Failed to parse tracks id file.", e);
         }
     }
 }
