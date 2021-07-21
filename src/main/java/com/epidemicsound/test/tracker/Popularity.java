@@ -1,6 +1,6 @@
 package com.epidemicsound.test.tracker;
 
-import com.epidemicsound.test.spotify.tracks.Track;
+import com.epidemicsound.test.spotify.tracks.SpotifyTrack;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -28,8 +28,8 @@ public class Popularity {
         this.atDate = atDate;
     }
 
-    public static Popularity fromSpotifyTrack(Track track) {
-        return new Popularity(track.getId(), track.getPopularity(), LocalDate.now());
+    public static Popularity fromSpotifyTrack(SpotifyTrack spotifyTrack) {
+        return new Popularity(spotifyTrack.getId(), spotifyTrack.getPopularity(), LocalDate.now());
     }
 
     public String getId() {
@@ -46,5 +46,15 @@ public class Popularity {
 
     public LocalDate getAtDate() {
         return atDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Popularity{" +
+                "id='" + id + '\'' +
+                ", trackId='" + trackId + '\'' +
+                ", popularity=" + popularity +
+                ", atDate=" + atDate +
+                '}';
     }
 }

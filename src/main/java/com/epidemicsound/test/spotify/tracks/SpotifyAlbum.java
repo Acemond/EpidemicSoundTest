@@ -2,15 +2,15 @@ package com.epidemicsound.test.spotify.tracks;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Album {
+public class SpotifyAlbum {
     @JsonProperty("release_date")
     private final String releaseDate;
 
-    private Album() {
+    private SpotifyAlbum() {
         releaseDate = "";
     }
 
-    public Album(String releaseDate) {
+    public SpotifyAlbum(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -20,7 +20,7 @@ public class Album {
 
     @Override
     public String toString() {
-        return "Album{" +
+        return "SpotifyAlbum{" +
                 "releaseDate='" + releaseDate + '\'' +
                 '}';
     }

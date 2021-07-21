@@ -1,7 +1,7 @@
 package com.epidemicsound.test.tracker;
 
+import com.epidemicsound.test.spotify.tracks.SpotifyTrack;
 import com.epidemicsound.test.spotify.tracks.TracksRestClient;
-import com.epidemicsound.test.spotify.tracks.Track;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -34,10 +34,10 @@ public class TracksTracker {
 
     @Scheduled(cron = "0 0 4 * * *")
     public void run() {
-        List<Track> tracks = tracksRestClient.getTracks(getTrackIds());
+        List<SpotifyTrack> spotifyTracks = tracksRestClient.getTracks(getTrackIds());
 
-        tracksRepository.saveAll(tracks.stream().map(InternalTrack::fromSpotifyTrack).collect(Collectors.toList()));
-        popularityRepository.saveAll(tracks.stream().map(Popularity::fromSpotifyTrack).collect(Collectors.toList()));
+        tracksRepository.saveAll(spotifyTracks.stream().map(Track::fromSpotifyTrack).collect(Collectors.toList()));
+        popularityRepository.saveAll(spotifyTracks.stream().map(Popularity::fromSpotifyTrack).collect(Collectors.toList()));
     }
 
     String[] getTrackIds() {

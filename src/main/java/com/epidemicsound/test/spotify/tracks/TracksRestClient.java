@@ -31,7 +31,7 @@ public class TracksRestClient {
         this.restTemplate = restTemplate;
     }
 
-    public List<Track> getTracks(String[] ids) {
+    public List<SpotifyTrack> getTracks(String[] ids) {
         AccessToken token = accessTokenRestClient.authenticate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -41,8 +41,8 @@ public class TracksRestClient {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(API_URL + "/tracks")
                 .queryParam("ids", String.join(",", ids));
 
-        ResponseEntity<Tracks> res =
-                restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET, request, Tracks.class);
+        ResponseEntity<SpotifyTracks> res =
+                restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET, request, SpotifyTracks.class);
 
         return Arrays.asList(Objects.requireNonNull(res.getBody()).getTracks());  // FIXME: ugly
     }
