@@ -1,4 +1,4 @@
-package com.epidemicsound.test;
+package com.epidemicsound.test.spotify.tracks;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
