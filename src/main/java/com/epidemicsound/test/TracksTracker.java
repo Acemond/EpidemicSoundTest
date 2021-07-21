@@ -14,22 +14,25 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Component
 public class TracksTracker {
     private final TracksRestClient tracksRestClient;
+    private final TracksRepository tracksRepository;
 
     @Autowired
-    public TracksTracker(TracksRestClient tracksRestClient) {
+    public TracksTracker(TracksRestClient tracksRestClient, TracksRepository tracksRepository) {
         this.tracksRestClient = tracksRestClient;
+        this.tracksRepository = tracksRepository;
     }
 
     public void run() {
         List<Track> tracks = tracksRestClient.getTracks(getTrackIds());
 
-        System.out.println(tracks.size());
+        tracksRepository.saveAll(tracks.stream().map(InternalTrack::new).collect(Collectors.toList()));
         System.exit(0);
     }
 
