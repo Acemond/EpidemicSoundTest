@@ -5,6 +5,7 @@ to track their popularity over time.
 
 The main class is `TracksTracker`. It runs a method periodically (every day)
 to retrieve and store Epidemic Sound tracks from Spotify API.
+You can run the command `mvn spring-boot:run` to launch the scheduler.
 
 The job stores tracks in a MySQL database, you can change the url to
 the database of your choice in the `application.properties` located
