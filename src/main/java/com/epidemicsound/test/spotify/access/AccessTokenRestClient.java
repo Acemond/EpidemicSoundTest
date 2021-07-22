@@ -32,9 +32,7 @@ public class AccessTokenRestClient {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "client_credentials");
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
-
-        return restTemplate.postForObject(API_URL + "/token", request, AccessToken.class);
+        return restTemplate.postForObject(API_URL + "/token", new HttpEntity<>(body, headers), AccessToken.class);
     }
 
     private HttpHeaders createHeaders() {
