@@ -2,9 +2,12 @@ package com.epidemicsound.test.tracker;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
+@Table(indexes = @Index(columnList = "atDate"))
 public class Popularity {
     @Id
     private final String id;
