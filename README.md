@@ -16,7 +16,7 @@ In order to get the popularity over time, you can execute an SQL query like:
 ```sql
 SELECT *
 FROM popularity
-WHERE trackId = '1Ku0J6YIKWOd6pZi4VlFLb'
-  AND atDate > 2021-07-21
-ORDER BY atDate DESC; 
+WHERE track_id = '1Ku0J6YIKWOd6pZi4VlFLb'
+  AND at_date > 2021-07-21
+ORDER BY at_date; 
 ```
