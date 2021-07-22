@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @Component
 public class TracksRestClient {
@@ -44,6 +44,10 @@ public class TracksRestClient {
         ResponseEntity<SpotifyTracks> res =
                 restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET, request, SpotifyTracks.class);
 
-        return Arrays.asList(Objects.requireNonNull(res.getBody()).getTracks());  // FIXME: ugly
+        if (res.getBody() == null) {
+            return new ArrayList<>();
+        }
+
+        return Arrays.asList(res.getBody().getTracks());
     }
 }
