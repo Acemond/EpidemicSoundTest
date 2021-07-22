@@ -38,7 +38,7 @@ public class AccessTokenRestClient {
     private HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();
         byte[] encodedAuth = Base64.encodeBase64((CLIENT_ID + ":" + CLIENT_SECRET).getBytes());
-        headers.add("Authorization", "Basic " + new String(encodedAuth));
+        headers.add(HttpHeaders.AUTHORIZATION, "Basic " + new String(encodedAuth));
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         return headers;
     }

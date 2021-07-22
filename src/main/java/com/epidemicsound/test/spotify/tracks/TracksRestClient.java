@@ -40,7 +40,7 @@ public class TracksRestClient {
         AccessToken token = accessTokenRestClient.authenticate();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + token.getAccessToken());
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token.getAccessToken());
 
         String url = UriComponentsBuilder.fromHttpUrl(API_URL + "/tracks")
                 .queryParam("ids", String.join(",", ids))
