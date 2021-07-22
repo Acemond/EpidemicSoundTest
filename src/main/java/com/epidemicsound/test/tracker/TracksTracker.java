@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 
@@ -32,13 +31,11 @@ public class TracksTracker {
         this.popularityRepository = popularityRepository;
     }
 
-    @Scheduled(cron = "0 0 4 * * *")
-    public void run() {
-        LocalDate now = LocalDate.now();
+    public void run(LocalDate atDate) {
         List<SpotifyTrack> spotifyTracks = tracksRestClient.getTracks(getTrackIds());
 
         tracksRepository.saveAll(spotifyTracks.stream().map(SpotifyTrack::toTrack).collect(Collectors.toList()));
-        popularityRepository.saveAll(spotifyTracks.stream().map(t -> t.toPopularity(now)).collect(Collectors.toList()));
+        popularityRepository.saveAll(spotifyTracks.stream().map(t -> t.toPopularity(atDate)).collect(Collectors.toList()));
     }
 
     String[] getTrackIds() {
